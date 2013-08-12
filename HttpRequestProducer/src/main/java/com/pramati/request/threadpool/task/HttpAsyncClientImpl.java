@@ -29,9 +29,9 @@ public class HttpAsyncClientImpl implements Runnable{
 		
 		try {
 			System.out.println("Processing started for Request Number "+i);
-			BoundRequestBuilder checkOut = Main.pool.checkOut();
-			Future<Response> response = checkOut.execute();
-			Main.pool.checkIn(checkOut);
+			BoundRequestBuilder requestBuilder = Main.pool.checkOut();
+			Future<Response> response = requestBuilder.execute();
+			Main.pool.checkIn(requestBuilder);
 			logger.debug("Toatal Time for Task "+i+" is "+(System.currentTimeMillis() - startTime));
 			Main.futureList.add(response);
 			

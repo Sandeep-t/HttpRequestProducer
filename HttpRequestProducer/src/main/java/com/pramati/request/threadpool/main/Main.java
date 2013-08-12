@@ -27,7 +27,7 @@ public class Main {
 	// public static Map<Integer,Long> threadTimeMap=
 	// Collections.synchronizedMap(new HashMap<Integer,Long>());
 	public static ClientPool pool = new ClientPool(
-			"http://localhost:8080/TestConsumer/DataConsumer", "username",
+			"http://localhost:8080/HttpRequestConsumer/DataConsumer", "username",
 			"testingClient", new AsyncHttpClient());
 	public static List<Future<Response>> futureList = Collections
 			.synchronizedList(new ArrayList<Future<Response>>());
