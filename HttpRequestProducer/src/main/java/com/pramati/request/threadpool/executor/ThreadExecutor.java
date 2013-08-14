@@ -20,7 +20,7 @@ public class ThreadExecutor {
 
 	public ThreadExecutor() {
 		
-		threadPool=new ThreadPoolExecutor(30, 30, 10000, TimeUnit.SECONDS,queue,new ThreadPoolExecutor.CallerRunsPolicy());
+		threadPool=new ThreadPoolExecutor(8, 12, 10000, TimeUnit.SECONDS,queue,new ThreadPoolExecutor.CallerRunsPolicy());
 
 	}
 

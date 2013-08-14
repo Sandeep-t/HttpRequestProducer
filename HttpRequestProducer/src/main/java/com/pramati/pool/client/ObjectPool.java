@@ -31,7 +31,7 @@ public abstract class ObjectPool<T> {
 	    long now = System.currentTimeMillis();
 	    T t;
 	    if (unlocked.size() > 0) {
-	    	
+	    //System.out.println("Total Number of created objects "+ unlocked.size());	
 	      Enumeration<T> e = unlocked.keys();
 	      while (e.hasMoreElements()) {
 	        t = e.nextElement();

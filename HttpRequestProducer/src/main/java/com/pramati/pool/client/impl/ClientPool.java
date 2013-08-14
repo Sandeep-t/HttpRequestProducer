@@ -26,6 +26,16 @@ public class ClientPool extends ObjectPool<BoundRequestBuilder> {
 	    this.dataValue=dataValue;
 	    this.asyncHttpClient=asyncHttpClient;
 	  }
+	
+	
+
+	public ClientPool(String url, AsyncHttpClient asyncHttpClient) {
+		super();
+		this.url = url;
+		this.asyncHttpClient = asyncHttpClient;
+	}
+
+
 
 	@Override
 	  protected BoundRequestBuilder create() {
