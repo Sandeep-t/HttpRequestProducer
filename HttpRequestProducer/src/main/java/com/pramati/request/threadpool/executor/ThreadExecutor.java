@@ -25,7 +25,7 @@ public class ThreadExecutor {
 	}
 
 	public void executeTask(Runnable task) {
-		System.out.println("Q Size " + queue.size());
+		//System.out.println("Q Size " + queue.size());
 		threadPool.execute(task);
 	}
 

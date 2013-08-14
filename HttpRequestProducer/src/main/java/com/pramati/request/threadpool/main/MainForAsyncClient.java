@@ -4,9 +4,7 @@
 package com.pramati.request.threadpool.main;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import org.apache.log4j.Logger;
@@ -23,7 +21,7 @@ import com.pramati.request.threadpool.task.HttpAsyncClientImpl;
  */
 public class MainForAsyncClient {
 
-	//private static final Logger logger = Logger.getLogger(Main.class);
+	private static final Logger logger = Logger.getLogger(MainForAsyncClient.class);
 	// public static Map<Integer,Long> threadTimeMap=
 	// Collections.synchronizedMap(new HashMap<Integer,Long>());
 	public static ClientPool pool = new ClientPool(
@@ -47,13 +45,12 @@ public class MainForAsyncClient {
 				executor.executeTask(httpImpl);
 
 			} catch (Exception e) {
-				//logger.error("Exception occured I " + i, e);
+				logger.error("Exception occured for Reqest " + i, e);
 			}
-
 			i++;
-			System.out.println("i " + i);
+			
 		}
-		//logger.debug("OUT " + Main.futureList.size());
+		logger.debug("OUT " + MainForAsyncClient.futureList.size());
 		
 		
 		/*if (Main.futureList.size() > 0) {

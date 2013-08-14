@@ -39,8 +39,8 @@ public class ClientPool extends ObjectPool<BoundRequestBuilder> {
 
 	@Override
 	  protected BoundRequestBuilder create() {
-	    
-	      return asyncHttpClient.prepareGet(url).addQueryParameter(dataKey, dataValue);
+
+		return asyncHttpClient.prepareGet(url).addQueryParameter(dataKey, dataValue);
 	    
 	  }
 
