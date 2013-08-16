@@ -42,7 +42,7 @@ public class ClientPool extends AbstractObjectPool<BoundRequestBuilder> {
 
 		return asyncHttpClient.prepareGet(url).addQueryParameter(dataKey, dataValue);
 	    
-	  }
+	  } 
 
 	  @Override
 	  public void expire(BoundRequestBuilder request) {}

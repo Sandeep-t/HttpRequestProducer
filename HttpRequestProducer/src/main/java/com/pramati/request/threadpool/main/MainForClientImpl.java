@@ -74,7 +74,7 @@ public class MainForClientImpl{
 				System.out.println("Response Code " + futureList1.get());
 				//System.out.println("Inside Loop Size " + futureList.size());
 				//Main.futureList.remove(futureList1);
-				j++;
+				j++; 
 			} catch (ExecutionException e) {
 				
 				e.printStackTrace();

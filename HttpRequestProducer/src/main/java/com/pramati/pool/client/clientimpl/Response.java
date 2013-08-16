@@ -11,5 +11,5 @@ public class Response {
 
     public InputStream getBody() {
         return body;
-    }
+    } 
 }
