@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 
 public class ThreadExecutor {
 
-	 private static final Logger logger =
+	 private static final Logger LOGGER =
 	 Logger.getLogger(ThreadExecutor.class);
 
 	public ArrayBlockingQueue<Runnable> queue = new ArrayBlockingQueue<Runnable>(10000);
@@ -30,8 +30,11 @@ public class ThreadExecutor {
 	}
 
 	public void shutDownExecutor() {
-		 logger.debug("Shutting Down the executor with Queue Size.." +
-		 queue.size());
+		
+		if(LOGGER.isDebugEnabled()){
+			LOGGER.debug("Shutting Down the executor with Queue Size.." +
+					 queue.size());	
+		}
 		threadPool.shutdown();
 	}
 

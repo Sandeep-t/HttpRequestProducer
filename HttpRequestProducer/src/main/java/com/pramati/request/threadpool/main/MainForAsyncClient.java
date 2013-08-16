@@ -4,6 +4,7 @@
 package com.pramati.request.threadpool.main;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -21,7 +22,7 @@ import com.pramati.request.threadpool.task.HttpAsyncClientImpl;
  */
 public class MainForAsyncClient {
 
-	private static final Logger logger = Logger.getLogger(MainForAsyncClient.class);
+	private static final Logger LOGGER = Logger.getLogger(MainForAsyncClient.class);
 	// public static Map<Integer,Long> threadTimeMap=
 	// Collections.synchronizedMap(new HashMap<Integer,Long>());
 	public static ClientPool pool = new ClientPool(
@@ -32,25 +33,28 @@ public class MainForAsyncClient {
 			"http://localhost/index.html", new AsyncHttpClient());*/
 	
 	
-	public static List<Future<Response>> futureList = new ArrayList<Future<Response>>();
+	public static List<Future<Response>> futureList = Collections.synchronizedList(new ArrayList<Future<Response>>());
 
 	public static void main(String args[]) throws InterruptedException {
-		int i = 1;
-		ThreadExecutor executor = new ThreadExecutor();
-		long startTime = System.currentTimeMillis();
+		
+		int requestCounter=0;
+		
+		final ThreadExecutor executor = new ThreadExecutor();
+		
+		final long startTime = System.currentTimeMillis();
+		
 		while ((System.currentTimeMillis() - startTime) < 1000) {
 			// while (i<300000) {
-			HttpAsyncClientImpl httpImpl = new HttpAsyncClientImpl(i);
+			HttpAsyncClientImpl httpImpl = new HttpAsyncClientImpl(requestCounter);
 			try {
 				executor.executeTask(httpImpl);
 
 			} catch (Exception e) {
-				logger.error("Exception occured for Reqest " + i, e);
+				LOGGER.error("Exception occured for Reqest " + requestCounter, e);
 			}
-			i++;
-			
+			requestCounter++;
 		}
-		logger.debug("OUT " + MainForAsyncClient.futureList.size());
+		LOGGER.debug("OUT " + MainForAsyncClient.futureList.size());
 		
 		
 		/*if (Main.futureList.size() > 0) {

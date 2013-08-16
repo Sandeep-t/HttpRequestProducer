@@ -13,8 +13,8 @@ import java.util.concurrent.Future;
 
 import org.apache.log4j.Logger;
 
-import com.pramati.pool.client.clientImpl.Request;
-import com.pramati.pool.client.clientImpl.Response;
+import com.pramati.pool.client.clientimpl.Request;
+import com.pramati.pool.client.clientimpl.Response;
 
 
 
@@ -25,42 +25,48 @@ import com.pramati.pool.client.clientImpl.Response;
  * @author sandeep-t
  *
  */
-public class MainForClientImpl{
+public class MainForClientImpl{ 
 	
 	 
-	private static final Logger logger = Logger.getLogger(MainForClientImpl.class);
-	public static void main(String[] args) {
+	private static final Logger LOGGER = Logger.getLogger(MainForClientImpl.class);
+	public static void main(String[] args) throws Exception { 
 		
-		ExecutorService executor = Executors.newFixedThreadPool(100); 
-		List<Future<Response>> futureList = new ArrayList<Future<Response>>();
-		
-		for (int j = 0; j < 20; j++) {
-			int i = 0;
-			logger.debug("J  "+j);
-			long startTime = System.currentTimeMillis();
+		Request task;
+		final String spec = "http://localhost:8080/HttpRequestConsumer/DataConsumer";
+		try {
+			URL url = new URL(spec); 
+			task = new Request(url);
+			
+		} catch (MalformedURLException e1) {
+			LOGGER.error("MalformedURLException occured while parsing the URL "+spec, e1);
+			throw new Exception("MalformedURLException occured while parsing the URL "+spec, e1);
+		}
+		final ExecutorService executor = Executors.newFixedThreadPool(100); 
+		final List<Future<Response>> futureList = new ArrayList<Future<Response>>();
+		for (int loopCounter = 0; loopCounter < 2; loopCounter++) {
+			if(LOGGER.isDebugEnabled()){
+				LOGGER.debug("Loop Number "+loopCounter);	
+			}
+			
+			final long startTime = System.currentTimeMillis();
+			
 			while ((System.currentTimeMillis() - startTime) < 1000) {
-				// Fire a request.
-				try {
-					System.out.println("III "+i++);
-					Future<Response> response = executor
-							.submit(new Request(new URL("http://localhost:8080/HttpRequestConsumer/DataConsumer")));
-					futureList.add(response);
-					
-				} catch (MalformedURLException e) {
-					logger.error("Exception occured while processing the Request ",e);
-					//e.printStackTrace();
-				}
-
+				
+				Future<Response> response = executor 
+						.submit(task);
+				futureList.add(response);
 				
 			}
-			logger.debug("J "+j+ "FutureList Size "+futureList.size() );
+			if(LOGGER.isDebugEnabled()){
+				LOGGER.debug("J "+loopCounter+ "FutureList Size "+futureList.size() );
+			}
+			
 		}
 		// Shutdown the threads during shutdown of your app
 		
-		executor.shutdown();
+		executor.shutdown(); 
 		
-		logger.debug("Size of future List "+futureList.size());
-	/*	if (futureList.size() > 0) {
+	/*	if (futureList.size() > 0) { // NOPMD by sandeep-t on 16/8/13 4:44 PM
 		int j=0;
 	//	System.out.println("Inside Loop " + futureList.size());
 		for (Future<Response> futureList1 : futureList) {

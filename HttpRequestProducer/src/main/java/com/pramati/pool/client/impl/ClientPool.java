@@ -5,17 +5,17 @@ package com.pramati.pool.client.impl;
 
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
-import com.pramati.pool.client.ObjectPool;
+import com.pramati.pool.client.AbstractObjectPool;
 
 /**
  * @author sandeep-t
  * @param <T>
  *
  */
-public class ClientPool extends ObjectPool<BoundRequestBuilder> {
+public class ClientPool extends AbstractObjectPool<BoundRequestBuilder> {
 	
-	private String url, dataKey,dataValue;
-	private AsyncHttpClient asyncHttpClient;
+	final private String url, dataKey,dataValue;
+	final private AsyncHttpClient asyncHttpClient;
 	
 	
 	public ClientPool(String url,String dataKey,String dataValue,AsyncHttpClient asyncHttpClient) {
@@ -29,12 +29,12 @@ public class ClientPool extends ObjectPool<BoundRequestBuilder> {
 	
 	
 
-	public ClientPool(String url, AsyncHttpClient asyncHttpClient) {
+	/*public ClientPool(String url, AsyncHttpClient asyncHttpClient) {
 		super();
 		this.url = url;
 		this.asyncHttpClient = asyncHttpClient;
 	}
-
+*/
 
 
 	@Override

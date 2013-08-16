@@ -1,9 +1,9 @@
-package com.pramati.pool.client.clientImpl;
+package com.pramati.pool.client.clientimpl;
 
 import java.io.InputStream;
 
 public class Response {
-    private InputStream body;
+   final private InputStream body;
 
     public Response(InputStream body) {
         this.body = body;

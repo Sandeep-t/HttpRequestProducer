@@ -4,21 +4,22 @@
 package com.pramati.pool.client;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author sandeep-t
  *
  */
-public abstract class ObjectPool<T> {
+public abstract class AbstractObjectPool<T> {
 	  private long expirationTime;
 
-	  private Hashtable<T, Long> locked, unlocked;
+	  final private Map<T, Long> locked, unlocked;
 
-	  public ObjectPool() {
+	  public AbstractObjectPool() {
 	    expirationTime = 30000; // 30 seconds
-	    locked = new Hashtable<T, Long>();
-	    unlocked = new Hashtable<T, Long>();
+	    locked = new HashMap<T, Long>();
+	    unlocked = new HashMap<T, Long>();
 	  }
 
 	  protected abstract T create();
@@ -32,7 +33,7 @@ public abstract class ObjectPool<T> {
 	    T t;
 	    if (unlocked.size() > 0) {
 	    //System.out.println("Total Number of created objects "+ unlocked.size());	
-	      Enumeration<T> e = unlocked.keys();
+	      Enumeration<T> e = (Enumeration<T>) unlocked.keySet();
 	      while (e.hasMoreElements()) {
 	        t = e.nextElement();
 	        if ((now - unlocked.get(t)) > expirationTime) {
@@ -44,7 +45,7 @@ public abstract class ObjectPool<T> {
 	          if (validate(t)) {
 	            unlocked.remove(t);
 	            locked.put(t, now);
-	            return (t);
+	            return t;
 	          } else {
 	            // object failed validation
 	            unlocked.remove(t);
@@ -57,7 +58,7 @@ public abstract class ObjectPool<T> {
 	    // no objects available, create a new one
 	    t = create();
 	    locked.put(t, now);
-	    return (t);
+	    return t;
 	  }
 
 	  public synchronized void checkIn(T t) {

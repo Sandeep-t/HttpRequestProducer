@@ -13,31 +13,32 @@ import com.pramati.request.threadpool.main.MainForAsyncClient;
 
 public class HttpAsyncClientImpl implements Runnable{
 
-	private static final Logger logger = Logger.getLogger(HttpAsyncClientImpl.class);
+	private static final Logger LOGGER = Logger.getLogger(HttpAsyncClientImpl.class);
 	
-	int i;
+	int requestCount;
 	
-	public HttpAsyncClientImpl(int i2) {
-		this.i=i2;
+	public HttpAsyncClientImpl(int requestCount) {
+		this.requestCount=requestCount;
 	}
 	
 	@Override
 	public void run() {
 		
-		long startTime = System.currentTimeMillis();
+		final long startTime = System.currentTimeMillis();
 		
 		try {
 			//System.out.println("Processing started for Request Number "+i);
 			BoundRequestBuilder requestBuilder = MainForAsyncClient.pool.checkOut();
-			Future<Response> response = requestBuilder.execute();
+			final Future<Response> response = requestBuilder.execute();
 			MainForAsyncClient.pool.checkIn(requestBuilder);
-			logger.debug("Toatal Time for Task "+i+" is "+(System.currentTimeMillis() - startTime));
+			if(LOGGER.isDebugEnabled()){
+				LOGGER.debug("Toatal Time for Task "+requestCount+" is "+(System.currentTimeMillis() - startTime));	
+			}
 			MainForAsyncClient.futureList.add(response);
 			
-			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error("Exception occured while processing the RequestNumber "+ requestCount,e);
+			
 		}
 		
 		}
